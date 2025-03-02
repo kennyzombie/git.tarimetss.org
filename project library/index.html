@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Management System</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            width: 300px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Library Management System</h1>
+    
+    <h2>Add Book</h2>
+    <form id="addBookForm">
+        <input type="text" id="title" placeholder="Title" required>
+        <input type="text" id="author" placeholder="Author" required>
+        <input type="text" id="isbn" placeholder="ISBN" required>
+        <button type="submit">Add Book</button>
+    </form>
+    
+    <h2>Issue Book</h2>
+    <form id="issueBookForm">
+        <input type="number" id="book_id" placeholder="Book ID" required>
+        <input type="text" id="issued_to" placeholder="Issued To" required>
+        <input type="date" id="issue_date" required>
+        <button type="submit">Issue Book</button>
+    </form>
+    
+    <script>
+        document.getElementById("addBookForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const title = document.getElementById("title").value;
+            const author = document.getElementById("author").value;
+            const isbn = document.getElementById("isbn").value;
+    
+            fetch("add_book.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ title, author, isbn })
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message));
+        });
+    
+        document.getElementById("issueBookForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const bookId = document.getElementById("book_id").value;
+            const issuedTo = document.getElementById("issued_to").value;
+            const issueDate = document.getElementById("issue_date").value;
+    
+            fetch("issue_book.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ book_id: bookId, issued_to: issuedTo, issue_date: issueDate })
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message));
+        });
+    </script>
+</body>
+</html>

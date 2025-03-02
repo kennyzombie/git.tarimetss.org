@@ -1,0 +1,19 @@
+CREATE DATABASE library_db;
+
+USE library_db;
+
+CREATE TABLE books (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    isbn VARCHAR(50) UNIQUE NOT NULL,
+    available BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE issued_books (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    book_id INT,
+    issued_to VARCHAR(255) NOT NULL,
+    issue_date DATE,
+    FOREIGN KEY (book_id) REFERENCES books(id)
+);

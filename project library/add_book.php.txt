@@ -1,0 +1,18 @@
+<?php
+include 'database.php';
+
+$data = json_decode(file_get_contents("php://input"), true);
+$title = $data['title'];
+$author = $data['author'];
+$isbn = $data['isbn'];
+
+$sql = "INSERT INTO books (title, author, isbn) VALUES ('$title', '$author', '$isbn')";
+
+if ($conn->query($sql) === TRUE) {
+    echo json_encode(["message" => "Book added successfully"]);
+} else {
+    echo json_encode(["message" => "Error: " . $conn->error]);
+}
+
+$conn->close();
+?>

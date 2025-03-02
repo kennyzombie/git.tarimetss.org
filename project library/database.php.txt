@@ -1,0 +1,19 @@
+<?php
+include 'database.php';
+
+$data = json_decode(file_get_contents("php://input"), true);
+$book_id = $data['book_id'];
+$issued_to = $data['issued_to'];
+$issue_date = $data['issue_date'];
+
+$sql = "INSERT INTO issued_books (book_id, issued_to, issue_date) VALUES ('$book_id', '$issued_to', '$issue_date')";
+$update_sql = "UPDATE books SET available = FALSE WHERE id = '$book_id'";
+
+if ($conn->query($sql) === TRUE && $conn->query($update_sql) === TRUE) {
+    echo json_encode(["message" => "Book issued successfully"]);
+} else {
+    echo json_encode(["message" => "Error: " . $conn->error]);
+}
+
+$conn->close();
+?>
